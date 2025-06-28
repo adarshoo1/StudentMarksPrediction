@@ -27,3 +27,31 @@ class CustomException(Exception):
 #     except Exception as e:
 #         logging.info("Divide my zero")
 #         raise CustomException(e,sys)
+
+import sys
+import logging
+from setuptools import setup, find_packages
+
+HYPEN_E_DOT = "-e"
+
+def error_message_detail(error,error_detail:sys):
+    _,_,exc_tb = error_detail.exc_info()
+    file_name = exc_tb.tb_frame.f_code.co_filename
+
+    requirements =[]
+
+    with open(file_name) as file_object:
+        requirements=file_object.readlines()
+        requirements+[req.replace("\n","")for req in requirements]
+
+        if HYPEN_E_DOT in requirements:
+            requirements.remove(HYPEN_E_DOT)
+
+    return requirements
+
+setup(
+    name="HousePrediction",
+    version="0.0.1",
+    author_email="adarshkumar.wrk@gmail.com",
+    packages=find_packages(),
+)
